@@ -14,6 +14,7 @@ class DollarCostAverage(bt.Strategy):
         self.total_shares = 0
         self.com_cost = 0
         self.invested_amount = 0
+        self.months_passed_since_start = 1
         
     def log(self, txt, dt=None):
         dt = dt or self.datas[0].datetime.date(0)
@@ -39,6 +40,8 @@ class DollarCostAverage(bt.Strategy):
 
         target_value = self.broker.get_value()
         self.order_target_value(target=target_value)
+        
+        self.months_passed_since_start += 1
 #         print(f"Cash in Account : {self.broker.get_cash()}, Total Assets: {self.broker.get_value()}")
     
     def notify_order(self, order):
@@ -74,16 +77,16 @@ class DollarCostAverage(bt.Strategy):
         value = self.datas[0].close * self.total_shares + self.broker.get_cash()
         print('-'*50)
         print('Dollar Cost Averaging')
-#         print('Time in Market: {:.1f} years'.format((endDate - actualStart).days/365))
+        print(f"Months Passed:\t\t{self.months_passed_since_start}")
         print(f'Buy Orders:\t\t{self.buys:.0f}')
         print(f'Sell Orders:\t\t{self.sells:.0f}')
         print(f'Total Shares:\t\t{self.total_shares:.2f}')
         print(f'Total Value:\t\t${value:,.2f}')
-        print(f'Total Shares Value:\t\t${self.broker.get_value():,.2f}')
+        print(f'Total Shares Value:\t\t${(self.datas[0].close * self.total_shares):,.2f}')
         print(f'Total Cash Value:\t\t${self.broker.get_cash():,.2f}')
         print(f'Cost:\t\t${self.total_cost:,.2f}')
         print(f'Gross Return:\t\t${(value - self.total_cost):,.2f}')
-        print(f'Gross %:\t\t{((value/self.total_cost - 1) * 100):.2f}%')
+#         print(f'Gross %:\t\t{((value/self.total_cost - 1) * 100):.2f}%')
         print(f'ROI:\t\t{(100.0 * self.roi):.2f}%')
         print(f'Fund Value:\t\t{self.froi:.2f}%')
         print(f'Commission Cost:\t\t${self.com_cost:.2f}')

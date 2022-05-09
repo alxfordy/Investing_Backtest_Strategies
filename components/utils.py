@@ -1,3 +1,4 @@
+import math
 import backtrader as bt
 
 class ComissionInfo(bt.CommissionInfo):
@@ -24,11 +25,10 @@ class CashMarket(bt.analyzers.Analyzer):
     """
     def create_analysis(self):
         self.rets = {}
-        self.vals = 0.0
 
     def notify_cashvalue(self, cash, value):
-        self.vals = (cash, value)
-        self.rets[self.strategy.datetime.datetime()] = self.vals
+        total = cash + value
+        self.rets[self.strategy.datetime.datetime()] = math.floor(total)
 
     def get_analysis(self):
         return self.rets
