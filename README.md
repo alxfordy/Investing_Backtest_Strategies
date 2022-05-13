@@ -2,6 +2,7 @@
  
  ## Introduction
  This repo uses backtrader (a python library for backtesting) to track returns on both DCA and Value Averaging investment strategies.
+ For a more comprehensive writeup, see here: https://medium.com/coinmonks/could-you-be-making-better-gains-than-dollar-cost-averaging-5948bb6c7448
  
  ## How To Use It
  The strategies and backtrader settings are stored under components/ with the notebook "Backtrader_Clean" providing the functionality of backtesting and plotting the results
